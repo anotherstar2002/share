@@ -5,7 +5,7 @@
     </div>
     <div class="right flex">
       <p @click="$router.push('/signup')">新規登録</p>
-      <p @click="$rouoter.push('/')">ログイン</p>
+      <p @click="$router.push('/')">ログイン</p>
     </div>
   </div>
 </template>
