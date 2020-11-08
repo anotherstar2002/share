@@ -14,13 +14,13 @@
         </div>
         <div class="message" v-for="(comment, index) in data" :key="index">
           <div class="flex">
-            <p class="name">{{comment.name}}</p>
+            <p class="name">{{ comment.comment_user.name }}</p>
           </div>
           <div>
-            <p class="text">{{comment.content}}</p>
+            <p class="text">{{ comment.comment.content }}</p>
           </div>
         </div>
-        <input v-model="conent" type="text">
+        <input v-model="content" type="text" />
         <div @click="send">
           <button>コメント</button>
         </div>
@@ -32,32 +32,60 @@
 <script>
 import SideNavi from "../components/SideNavi";
 import Message from "../components/Message";
-
+import axios from "axios";
 export default {
-  props:["id"],
-  data(){
+  props: ["id"],
+  data() {
     return {
-      conent:"",
-      data: [{name:"太郎", like: [], share:"初めまして"}]
+      content: "",
+      data: "",
     };
   },
-  components:{
+  methods: {
+    send() {
+      axios
+        .post("https://warm-sands-86218.herokuapp.com/api/comment", {
+          share_id: this.id,
+          user_id: this.$store.state.user.id,
+          content: this.content,
+        })
+        .then((response) => {
+          console.log(response);
+          this.content = "";
+          this.$router.go({
+            path: this.$router.currentRoute.path,
+            force: true,
+          });
+        });
+    },
+    comment() {
+      axios
+        .get("https://warm-sands-86218.herokuapp.com/api/shares/" + this.id)
+        .then((response) => {
+          this.data = response.data.comment;
+        });
+    },
+  },
+  created() {
+    this.comment();
+  },
+  components: {
     SideNavi,
-    Message
-  }
+    Message,
+  },
 };
 </script>
 
 <style scoped>
-.left{
+.left {
   width: 22%;
-  height:100vh;/* vhってなに？ */
-}
-.right{
-  width:78%;
   height: 100vh;
 }
-.flex{
+.right {
+  width: 78%;
+  height: 100vh;
+}
+.flex {
   display: flex;
 }
 .title {
@@ -69,23 +97,26 @@ export default {
   font-size: 20px;
   font-weight: bold;
 }
-.comment-title{
+.share-message {
+  border-bottom: 1px solid white;
+}
+.comment-title {
   text-align: center;
-  padding-top:10px;
+  padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid white;
   border-left: 1px solid white;
 }
-.comment input{
+.comment input {
   width: 95%;
   height: 30px;
   margin-top: 20px;
   margin-bottom: 15px;
   margin-left: 10px;
   border-radius: 10px;
-  border: 1px solid  white;
+  border: 1px solid white;
   background-color: #15202b;
-  color:white;
+  color: white;
 }
 .message {
   padding-top: 10px;

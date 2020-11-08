@@ -6,7 +6,7 @@
         <img class="icon" src="../assets/home.png" />
         <p>ホーム</p>
       </div>
-      <div class="flex icon-filed" @click="$router.push('/profile')">
+      <div class="flex icon-field" @click="$router.push('/profile')">
         <img class="icon" src="../assets/profile.png"/>
         <p>プロフィール</p>
       </div>

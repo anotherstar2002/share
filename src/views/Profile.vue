@@ -1,21 +1,21 @@
 <template>
   <div class="flex">
     <div class="left">
-      <SideNavi/>
+      <SideNavi />
     </div>
-    <div classs="right">
+    <div class="right">
       <div class="title">
         <p>プロフィール</p>
       </div>
       <div class="profile">
         <div class="flex-profile">
-          <p class="profile-name">{{name}}</p>
+          <p class="profile-name">{{ name }}</p>
           <div @click="edit">
             <button>変更する</button>
           </div>
         </div>
-        <p class="text" v-if="active">{{profile}}</p><!-- v-ifとvelseの使い方 -->
-        <input type="text" v-model="profile" v-else>
+        <p class="text" v-if="active">{{ profile }}</p>
+        <input type="text" v-model="profile" v-else />
       </div>
       <Message />
     </div>
@@ -25,14 +25,33 @@
 <script>
 import SideNavi from "../components/SideNavi";
 import Message from "../components/Message";
+import axios from "axios";
 export default {
   data(){
   return {
     active: true,
-    name: "太郎",
-    profile:"私は太郎です"
+    name: this.$store.state.user.name,
+    profile: this.$store.state.user.profile,
   };
 },
+methods: {
+    edit() {
+      if (!this.active) {
+        axios
+          .put("https://warm-sands-86218.herokuapp.com/api/user", {
+            email: this.$store.state.user.email,
+            profile: this.profile,
+          })
+          .then((response) => {
+            this.$store.dispatch("changeUserData", {
+              profile: this.profile,
+            });
+            console.log(response);
+          });
+      }
+      this.active = !this.active;
+    },
+  },
   components:{
     SideNavi,
     Message
@@ -41,23 +60,23 @@ export default {
 </script>
 
 <style scoped>
-.left{
+.left {
   width: 22%;
-  height:100vh;/* vhってなに？ */
-}
-.right{
-  width:78%;
   height: 100vh;
 }
-.flex{
+.right {
+  width: 78%;
+  height: 100vh;
+}
+.flex {
   display: flex;
 }
-.profile{
+.profile {
   padding: 20px;
   border-bottom: solid 1px white;
   border-left: 1px solid white;
 }
-.profile-name{
+.profile-name {
   font-size: 24px;
 }
 .title {
@@ -70,7 +89,7 @@ export default {
   font-weight: bold;
 }
 .flex-profile {
-  display:flex;
+  display: flex;
   justify-content: space-between;
 }
 button {
@@ -82,5 +101,8 @@ button {
   border-radius: 25px;
   display: block;
   margin: 0 0 0 auto;
+}
+input {
+  color: black;
 }
 </style>
