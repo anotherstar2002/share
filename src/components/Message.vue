@@ -85,7 +85,7 @@ export default {
     del(index) {
       axios
         .delete(
-          "https://warm-sands-86218.herokuapp.com/api/shares" +
+          "https://warm-sands-86218.herokuapp.com/api/shares/" +
             this.shares[index].item.id
         )
         .then((response) => {
