@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import axios from "axios";
 import router from "../router/index";
@@ -29,14 +29,14 @@ export default new Vuex.Store({
   actions: {
     async login({ commit }, { email, password }) {
       let responseLogin = await axios.post(
-        "https://warm-sands-86218.herokuapp.com/api/login",
+        "https://mighty-beach-20119.herokuapp.com/api/login",
         {
           email: email,
           password: password,
         }
       );
       let responseUser = await axios.get(
-        "https://warm-sands-86218.herokuapp.com/api/user",
+        "https://mighty-beach-20119.herokuapp.com/api/user",
         {
           params: {
             email: email,
@@ -49,7 +49,7 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       axios
-        .post("https://warm-sands-86218.herokuapp.com/api/logout", {
+        .post("https://mighty-beach-20119.herokuapp.com/api/logout", {
           auth: this.state.auth,
         })
         .then((response) => {
@@ -63,6 +63,6 @@ export default new Vuex.Store({
     },
     changeUserData({ commit }, { profile }) {
       commit("changeUserData", profile);
-    }
+    },
   },
 });

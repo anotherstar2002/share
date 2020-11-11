@@ -27,18 +27,18 @@ import SideNavi from "../components/SideNavi";
 import Message from "../components/Message";
 import axios from "axios";
 export default {
-  data(){
-  return {
-    active: true,
-    name: this.$store.state.user.name,
-    profile: this.$store.state.user.profile,
-  };
-},
-methods: {
+  data() {
+    return {
+      active: true,
+      name: this.$store.state.user.name,
+      profile: this.$store.state.user.profile,
+    };
+  },
+  methods: {
     edit() {
       if (!this.active) {
         axios
-          .put("https://warm-sands-86218.herokuapp.com/api/user", {
+          .put("https://mighty-beach-20119.herokuapp.com/api/user", {
             email: this.$store.state.user.email,
             profile: this.profile,
           })
@@ -52,9 +52,9 @@ methods: {
       this.active = !this.active;
     },
   },
-  components:{
+  components: {
     SideNavi,
-    Message
+    Message,
   },
 };
 </script>
